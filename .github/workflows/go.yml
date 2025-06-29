@@ -21,10 +21,16 @@ jobs:
       with:
         go-version: '1.22'
 
-    - name: Build
-      run: go build -v ./...
-# Disabled for now as some tests wont run correctly on ubuntu
-#    - name: Test
-#      run: go test -v ./...
-    - name: DEBUG
-      run: ls -la ./
+    - name: Build init binary
+      run: go build -v -o init.bin ./init
+
+    - name: Build generator binary
+      run: go build -v -o generator.bin ./generator
+
+    - name: Upload binaries
+      uses: actions/upload-artifact@v4
+      with:
+        name: booster-binaries
+        path: |
+          init.bin
+          generator.bin
